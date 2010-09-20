@@ -30,3 +30,19 @@
   (or (= neighbors 3)
       (and alive?
 	   (= neighbors 2))))
+
+(defn step-world [world]
+  (loop [w {}
+	 cells (filter (fn [[[x y] c]] (survive? (:alive c) (:neighbors c))) world)]
+    (if (empty? cells)
+      w
+      (let [[[x y] _] (first cells)]
+	(recur (add-cell w x y) (rest cells))))))
+
+(defn add-glider [world]
+  (-> world
+      (add-cell 1 0)
+      (add-cell 2 1)
+      (add-cell 0 2)
+      (add-cell 1 2)
+      (add-cell 2 2)))

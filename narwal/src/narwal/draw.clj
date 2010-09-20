@@ -8,8 +8,11 @@
 ;dimensions of square world
 (def dim 80)
 (def scale 10.0)
+(def animation-sleep-ms 100)
 
-(def world (atom (create-world)))
+(def running true)
+(def world (atom (-> (create-world)
+		     (add-glider))))
 
 (defn fill-cell [#^Graphics g x y c]
   (doto g
@@ -17,8 +20,9 @@
     (.fillRect (* x scale) (* y scale) scale scale)))
 
 (defn render-world [g world]
-  (map (fn [[x y] _] (fill-cell g x y Color/black))
-       (filter (fn [_ c] (survive? c)) @world)))
+  (doall (map (fn [[x y] c] (when (:alive c)
+			      (fill-cell g x y Color/black)))
+	      @world)))
 
 (defn render [g]
   (let [img (new BufferedImage (* scale dim) (* scale dim) 
@@ -27,8 +31,9 @@
     (doto bg
       (.setColor (. Color white))
       (.fillRect 0 0 (. img (getWidth)) (. img (getHeight))))
-    (dorun 
-     (render-world bg world))
+    (doseq [[[x y] c] @world]
+      (when (:alive c)
+	(fill-cell bg x y Color/black)))
     (. g (drawImage img 0 0 nil))
     (. bg (dispose))))
 
@@ -40,14 +45,14 @@
 
 (def frame (doto (new JFrame) (.add panel)))
 
+(def animator (agent nil))
 (defn animation [x]
   (when running
     (send-off *agent* #'animation))
   (. panel (repaint))
+  (swap! world step-world)
   (. Thread (sleep animation-sleep-ms))
   nil)
-
-(defn )
 
 (defn show-frame [frame]
   (doto frame
@@ -55,5 +60,6 @@
     .show))
 
 (comment
- (show-frame frame)
- (send-off animator animation))
+  (show-frame frame)
+  (send-off animator animation)
+  (shutdown-agents))
