@@ -1,47 +1,40 @@
 (ns narwal.core)
 
-(defstruct cell :alive :neighbors)
-
-(defn create-world []
-  {})
-
-(defn neighbors-of [x y]
-  (for [row (range (dec y) (+ y 2))
-	col (range (dec x) (+ x 2))	
-	:when (not (and (= col x) (= row y)))]
-    [col row]))
+(defstruct cell :alive :neighbors :pos)
 
 (defn inc-neighbors [c]
-  (struct cell (:alive c) (inc (:neighbors c))))
+  (assoc c :neighbors (inc (:neighbors c))))
 
 (defn make-alive [c]
-  (struct cell true (:neighbors c)))
+  (assoc c :alive true))
 
-(defn get-cell [world x y]
-  (get world [x y] (struct cell nil 0)))
+(defn survive? [cell]
+  (or (= (:neighbors cell) 3)
+      (and (:alive cell)
+	   (= (:neighbors cell) 2))))
 
-(defn add-cell [world x y]
-  (let [f (fn [world [x y]]
-	    (assoc world [x y] (inc-neighbors (get-cell world x y))))]
-    (-> (reduce f world (neighbors-of x y))
-	(assoc [x y] (make-alive (get-cell world x y))))))
+(defn create-world [] {})
 
-(defn survive? [alive? neighbors]
-  (or (= neighbors 3)
-      (and alive?
-	   (= neighbors 2))))
+(defn update-cell [world pos f]
+  (assoc world pos (f (get world pos (struct cell false 0 pos)))))
+
+(defn without [x xs]
+  (remove #(= % x) xs))
+
+(defn neighbors-of [[x y]]
+  (without [x y]
+	   (for [xop [dec identity inc]
+		 yop [dec identity inc]]
+	     [(xop x) (yop y)])))
+
+(defn add-cell [world pos]
+  (-> (reduce #(update-cell %1 %2 inc-neighbors) world (neighbors-of pos))
+      (update-cell pos make-alive)))
 
 (defn step-world [world]
-  (let [f (fn [world [[x y] cell]]
-	    (if (survive? (:alive cell) (:neighbors cell))
-	      (add-cell world x y)
-	      world))]
-    (reduce f (create-world) world)))
+  (reduce add-cell (create-world) (map :pos (filter survive? (get-cells world)))))
 
 (defn add-glider [world]
-  (-> world
-      (add-cell 1 0)
-      (add-cell 2 1)
-      (add-cell 0 2)
-      (add-cell 1 2)
-      (add-cell 2 2)))
+  (reduce add-cell world [      [1 0]
+			              [2 1]
+			  [0 2] [1 2] [2 2]]))
