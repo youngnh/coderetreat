@@ -15,6 +15,9 @@
 
 (defn create-world [] {})
 
+(defn get-cells [world]
+  (vals world))
+
 (defn update-cell [world pos f]
   (assoc world pos (f (get world pos (struct cell false 0 pos)))))
 
