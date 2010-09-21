@@ -1,0 +1,81 @@
+# STL CodeRetreat 2010
+
+What an excellent event.  I can't say enough about how much I enjoyed attending
+this event, due in no small part to it's excellent organizer Mario Aquino.  As 
+far as physical comfort went, he secured for us great digs in the Microsoft
+Offices in Creve Coeur as well as an amazingly tasty breakfast and lunch. The
+attendees were good company as well, the entire day was a very relaxed, casual
+affair and everyone there came to learn.
+
+The format was very simple.  Pairs of programmers would have 40 minutes to
+implement a Game of Life simulation.  After time was up there was a short break,
+everyone found a new pair and sessions were repeated until the end of the day.
+
+40 minutes hit a sweet spot for me at first.  The call to stop was ever imminent,
+and so I kept my tests short, my implementations minimal and every new session I
+tried to abandon some function or assumption that I had previously felt essential.
+
+A lot of the attendees were interested in Clojure, and as it is the language of
+my day job, I played tour-guide for a lot of interested and eager Clojure-
+acolytes.
+
+Clojure happend to be an excellent language to write in under a time-crunch.
+With leiningen, swank-clojure and clojure.test my pair and I were writing
+and executing test-cases almost as soon as a session had begun.
+
+My day-to-day development environemnt was Emacs, which, on the other hand was
+an ungodly time-sink.  Most of my pairs had worked only in vi or Eclipse.
+Being able to switch my emacs keybindings quickly would have been an extremely
+useful thing that I had not prepared ahead of time.  Emacs is certainly worth
+taking the time to learn if you plan to do any serious lisp development, but
+just about all of it's major text-editing operations, cursor movement, cut, 
+copy, paste, and save took a lot of time and error.
+
+40 minutes is not the ideal amount of time for not knowing what you're doing.
+In a javascript attempt, I tried using qunit for the first time, thinking it
+was javascript and only had 3 assertion methods, what could there be that I
+wouldn't understand about it?  My pair and I ended up burning a lot of time
+uncovering a number of such things.
+
+There were lots of console-printed implementations.  This speaks to how time-
+consuming it was to get working graphics.  Most people didn't even bother.
+A lot of others attempted a html+javascript solution, which yielded some
+successes, but for the most part I don't think that people were familiar 
+enough with languages that are primarily focused on creating graphics.
+I smacked myself on the forehead a few days later when I realized that I had 
+missed the perfect opportunity to use Lua and the fantastic LÖVE library.
+Ruby has shoes, and I think python has a quick-to-get-started-with graphics 
+library, but I didn't hear of anyone using them.
+
+After lunch, however, the prospect of leaving for the day before having a
+working solution seemed much more pressing than the end of any individual 40 
+minute session.  It was quite frustrating, and I speak for more than myself.
+
+I heard of one team abandoning tests in favor of just seeing something work.
+Which is, itself a lesson in producing software.  During the event, between
+sessions, there was a lot of talk about a particularly elegant "set theory
+implementation" that I think people were convinced would be a compact and
+therefore quick-to-implement solution.  I spent the days following coderetreat
+wrapped up in what the ultimate takeaway from the event might be.
+
+Having read nothing more than the event's announcement e-mail, one might 
+pidgeonhole the excercise as TDD propaganda.  Write tests first, keep your
+implementations small and working software will magically emerge.  Working
+software was in short supply Saturday.
+
+Any of my observations above could be a lesson unto itself: keep your tools and 
+your familiarity with those tools up-to-date.  Use a language that is expressive
+and terse to write software fast.  The simplest approach is the best, the more
+you can leave out, the faster you'll get your software working.
+
+But there's a lot of eastern philosophy wrapped up in an event like this, Koans
+and Zen and such. And there are certainly enough koans that are setups for a
+easily digestible nugget of wisdom.  If you're into that sort of thing, draw your
+own conclusion or one of the morsels above.  However, other koans seem to have
+no lesson.  They end abruptly before the waited-for wisdom arrives, leaving
+one with a sense of incompleteness or emptiness that rarely goes away quickly.
+
+At the risk of turning this write-up into one of the obvious-moral koans,
+coderetreat was worth the price of admission (utterly and completely free)
+for the wisdom that never arrived, and the days I spent after it mulling over it
+and writing this post, first in my head, and now here for you to read.
