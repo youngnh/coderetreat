@@ -62,4 +62,5 @@
 (comment
   (show-frame frame)
   (send-off animator animation)
-  (shutdown-agents))
+  (shutdown-agents)
+  (restart-agent animator nil))
