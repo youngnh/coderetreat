@@ -72,10 +72,24 @@
   (alter-var-root (var running) (constantly true))
 
   ;; reset the world
-  (reset! world (create-world))
+  (do (reset! world (create-world))
+      (.repaint panel))
 
   ;; glider
-  (reset! world (-> (create-world)
-		    (add-glider)))
+  (do (reset! world (-> (create-world)
+			(add-glider)))
+      (.repaint panel))
 
+  ;; diagonal
+  (do (reset! world (-> (create-world)
+			(add-diagonal 10)))
+      (.repaint panel))
+
+  ;; random 80x80 grid = 6400 cells
+  (do (reset! world (-> (create-world)
+			(add-random 1000 [80 80])))
+      (.repaint panel))
+
+  ;; number of cells it's tracking in the world
+  (count (get-cells @world))
 )

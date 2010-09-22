@@ -1,4 +1,5 @@
-(ns narwal.core)
+(ns narwal.core
+  (:import [java.util Random]))
 
 (defstruct cell :alive :neighbors :pos)
 
@@ -40,4 +41,13 @@
 (defn add-glider [world]
   (reduce add-cell world [      [1 0]
 			              [2 1]
-			  [0 2] [1 2] [2 2]]))
+				      [0 2] [1 2] [2 2]]))
+
+(defn add-diagonal [world length]
+  (reduce add-cell world (take length (iterate #(map inc %) [0 0]))))
+
+(defn add-random [world n [xlimit ylimit]]
+  (let [xrand (fn [] (.. (Random.) (nextInt xlimit)))
+	yrand (fn [] (.. (Random.) (nextInt ylimit)))
+	randoms (interleave (repeatedly xrand) (repeatedly yrand))]
+    (reduce add-cell world (take n (distinct (partition 2 randoms))))))
