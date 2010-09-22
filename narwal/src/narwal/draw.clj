@@ -61,6 +61,21 @@
 
 (comment
   (show-frame frame)
+
+  ;; start the animation
   (send-off animator animation)
-  (shutdown-agents)
-  (restart-agent animator nil))
+
+  ;; stop the animation, (send-off animator animation) will step animation
+  (alter-var-root (var running) (constantly false))
+
+  ;; restart the animation, (send-off animator animation) will run animation
+  (alter-var-root (var running) (constantly true))
+
+  ;; reset the world
+  (reset! world (create-world))
+
+  ;; glider
+  (reset! world (-> (create-world)
+		    (add-glider)))
+
+)
